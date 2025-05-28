@@ -66,17 +66,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Install Bun
-      uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # https://github.com/oven-sh/setup-bun/releases/tag/v2.0.2
-      with:
-        bun-version: 1.2.11
-
-    - name: Install Dependencies
-      shell: bash
-      run: |
-        cd ${{ github.action_path }}
-        bun install
-
     - name: Prepare action
       id: prepare
       shell: bash
@@ -94,7 +83,7 @@ runs:
     - name: Run Claude Code
       id: claude-code
       if: steps.prepare.outputs.contains_trigger == 'true'
-      uses: anthropics/claude-code-base-action@5097b6cdfe5fc5a3ac0166cc344c34ed23c93982 # https://github.com/anthropics/claude-code-base-action/releases/tag/v0.0.5
+      uses: nichiki/claude-code-base-action@main
       with:
         prompt_file: /tmp/claude-prompts/claude-prompt.txt
         allowed_tools: ${{ env.ALLOWED_TOOLS }}
